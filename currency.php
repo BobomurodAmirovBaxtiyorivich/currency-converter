@@ -44,9 +44,13 @@ class Currency
         if ($ccy == 'UZS') {
             $exchanged = round($value / $this->getCurrencies()[$ccy2]);
             return [$value, $ccy, $ccy2, $exchanged];
-        } else {
+        } elseif ($ccy2 == 'UZS') {
             $exchanged = round($value * $this->getCurrencies()[$ccy]);
             return [$value, $ccy, $ccy2, $exchanged];
+        } elseif ($ccy == $ccy2) {
+            return "2 ta bir xil valyuta convert qilinmaydi !!!";
+        } else {
+            return "Bu loyiha faqat so'm dan boshqa valyutaga va boshqa valyutadan so'm ga convert qiladi !!!";
         }
     }
 }

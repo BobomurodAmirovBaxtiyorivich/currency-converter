@@ -82,16 +82,34 @@
 
             if (isset($_GET['sub'])) {
                 if (!empty($_GET['amount']) && !empty($_GET['Ccy']) && !empty($_GET['Ccy2'])) {
-                    $result = $currency->exchange($_GET['amount'], $_GET['Ccy'], $_GET['Ccy2']);
-                    ?>
-                    <p class="rate-info mt-2"><?= $result[0] ?> <?= $result[1] ?> = <?= $result[3] ?> <?= $result[2] ?>
-                        <i class="bi bi-info-circle"></i></p>
-                <?php } else { ?>
+                    if ($_GET['Ccy'] == 'UZS' && $_GET['Ccy2'] == 'UZS') {
+                        $result = $currency->exchange($_GET['amount'], $_GET['Ccy'], $_GET['Ccy2']);
+                        ?>
+                        <p class="rate-info mt-2"><?= $result[0] ?> <?= $result[1] ?>
+                            = <?= $result[3] ?> <?= $result[2] ?>
+                            <i class="bi bi-info-circle"></i></p>
+                        }
+                    <?php } elseif ($_GET['Ccy'] == $_GET['Ccy2']) {
+                        $result = $currency->exchange($_GET['amount'], $_GET['Ccy'], $_GET['Ccy2']);
+                        ?>
+                        <p class="rate-info mt-2">
+                            <?= $result ?>
+                            <i class="bi bi-info-circle"></i>
+                        </p>
+                    <?php } else {
+                        $result = $currency->exchange($_GET['amount'], $_GET['Ccy'], $_GET['Ccy2']);
+                        ?>
+                        <p class="rate-info mt-2">
+                            <?= $result ?>
+                            <i class="bi bi-info-circle"></i>
+                        </p>
+                    <?php }
+                } else { ?>
                     <p class="rate-info mt-2">0 NONE = 0 NONE <i class="bi bi-info-circle"></i></p>
                 <?php }
             }
-
             ?>
+
             <button type="submit" name="sub" class="btn btn-primary btn-primary-custom mt-3">Convert</button>
         </form>
     </div>
@@ -100,7 +118,7 @@
     <p class="text-muted">
         If you want to know about weather informations click to button
     </p>
-    <a  class="btn btn-info" href="views/weatherInfo.php">Weather</a>
+    <a class="btn btn-info" href="views/weatherInfo.php">Weather</a>
     <h4 class="fw-bold">Let’s save you some time</h4>
     <p class="text-muted">If you’ve got a target exchange rate in mind but haven’t got time to keep tabs on market
         movement, then a firm order could be perfect for you. When your chosen rate is reached, we’ll act immediately,
