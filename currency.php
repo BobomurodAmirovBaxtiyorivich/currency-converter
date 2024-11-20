@@ -39,12 +39,12 @@ class Currency
         return $separated_data;
     }
 
-    public function exchange($value, $ccy, $ccy2)
+    public function exchange($value, $ccy, $ccy2): array|string
     {
-        if ($ccy == 'UZS') {
+        if ($ccy == 'UZS' && $ccy2 != 'UZS') {
             $exchanged = round($value / $this->getCurrencies()[$ccy2]);
             return [$value, $ccy, $ccy2, $exchanged];
-        } elseif ($ccy2 == 'UZS') {
+        } elseif ($ccy2 == 'UZS' && $ccy != 'UZS') {
             $exchanged = round($value * $this->getCurrencies()[$ccy]);
             return [$value, $ccy, $ccy2, $exchanged];
         } elseif ($ccy == $ccy2) {
