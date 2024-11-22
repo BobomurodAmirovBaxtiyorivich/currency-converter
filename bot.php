@@ -1,18 +1,23 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+function save_user(string $first_name, int $id): void
+{
+    $db = new DB();
+
+    $user = new Users($db->conn);
+
+    $user->store($first_name, $id);
+}
+
+
 require 'src/Bot.php';
-
 require 'Weather.php';
-
 require 'currency.php';
-
 require 'src/DB.php';
-
 require 'src/Users.php';
-
-$db = new DB();
-
-$user = new Users($db->conn);
 
 $weather = new Weather();
 
@@ -34,7 +39,12 @@ if ($text == '/start') {
 
     $bot->makeRequest('sendMessage', ['chat_id' => $id, 'text' => $start]);
 
-    $user->store($id);
+    if (isset($update->message->from->first_name, $update->message->from->id)) {
+        $first_name = $update->message->from->first_name;
+        $id = $update->message->from->id;
+
+        save_user($first_name, $id);
+    }
 } else if ($text == '/weather') {
     $info = "Temperatur: " . round($weather_info['main']->temp - 273.15, 2) . "°C" . " - " . "Weather: " . $weather_info['weather'][0]->main;
 

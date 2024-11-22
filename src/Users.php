@@ -18,20 +18,20 @@ class Users
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function store(int $id)
+    public function store(string $first_name, int $id): void
     {
         $info = $this->select();
 
         $check = false;
 
-        foreach ($info as $key => $value) {
+        foreach ($info as $value) {
             if ($value['user_id'] == $id) {
                 $check = true;
             }
         }
 
-        if ($check == false) {
-            $this->query = "INSERT INTO users(user_id) VALUES ($id)";
+        if (!$check) {
+            $this->query = "INSERT INTO users(first_name, user_id) VALUES ($first_name, $id)";
             $this->stmt = $this->conn->prepare($this->query);
             $this->stmt->execute();
         }
