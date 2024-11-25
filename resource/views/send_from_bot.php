@@ -18,7 +18,7 @@
             <button type="submit" name="sub" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <h1 align="center"><a href="../index.php" class="btn btn-primary">Back to Currency Converter</a></h1>
+    <h1 align="center"><a href="../../index.php" class="btn btn-primary">Back to Currency Converter</a></h1>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -41,10 +41,11 @@ $bot = new Bot();
 if (isset($_POST['sub'])) {
     echo '<h1 align="center">All info has been sent!</h1>';
     $chat_id = $_POST['chat_id'];
+    $currency_list = '';
     foreach ($currencies as $ccy => $rate) {
-        $bot->makeRequest('sendMessage', ['chat_id' => $chat_id, 'text' => '1 ' . $ccy . ' = ' . $rate . 'SUM']);
+        $currency_list .= "1 " . $ccy . ' = ' . $rate . " UZS" . "\n";
     }
-    $bot->makeRequest('sendMessage', ['chat_id' => $chat_id, 'text' => 'That is all currencies!']);
+    $bot->makeRequest('sendMessage', ['chat_id' => $chat_id, 'text' => $currency_list]);
 }
 
 ?>

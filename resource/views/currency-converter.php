@@ -1,3 +1,12 @@
+<?php
+require "src/currency.php";
+
+$currency = new Currency;
+
+$currencies = $currency->getCurrencies();
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -53,7 +62,6 @@
                     <select class="form-select" name="Ccy">
                         <option value="UZS">UZS</option>
                         <?php
-                        global $currencies;
 
                         foreach ($currencies as $ccy => $rate) { ?>
                             <option value="<?= $ccy ?>"><?= $ccy ?></option>
@@ -69,7 +77,6 @@
                         <select class="form-select" name="Ccy2">
                             <option value="UZS" selected>UZS</option>
                             <?php
-                            global $currencies;
 
                             foreach ($currencies as $ccy => $rate) { ?>
                                 <option value="<?= $ccy ?>"><?= $ccy ?></option>
@@ -80,7 +87,6 @@
                 </div>
             </div>
             <?php
-            global $currency;
 
             if (isset($_GET['sub'])) {
                 if (!empty($_GET['amount']) && !empty($_GET['Ccy']) && !empty($_GET['Ccy2'])) {
@@ -121,10 +127,6 @@
     </div>
 </div>
 <div class="info-section bg-light">
-    <p class="text-muted">
-        If you want to know about weather informations click to button
-    </p>
-    <a class="btn btn-info" href="views/weatherInfo.php">Weather</a>
     <h4 class="fw-bold">Let’s save you some time</h4>
     <p class="text-muted">If you want to know all exchange rate, click here</p>
     <a href="views/send_from_bot.php" class="btn btn-outline-danger">Find out more</a>
