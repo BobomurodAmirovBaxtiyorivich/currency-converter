@@ -27,17 +27,32 @@ if (isset($update)) {
         $first_name = $update->message->from->first_name;
         $id = $update->message->from->id;
 
-        $start = '/weather => shows weather info of the Tashkent
-/currencies => show currency info';
+        $reply_keyboard = [
+            "keyboard" => [
+                [
+                    ["text" => "/weather"],
+                    ["text" => "/currency"]
+                ]
+            ],
+            "resize_keyboard" => true,
+        ];
 
-        $bot->makeRequest('sendMessage', ['chat_id' => $id, 'text' => $start]);
+        $reply_keyboard = json_encode($reply_keyboard);
+
+        $start = "Hi my friend!\nThis bot helps you know how is weather in Tashkent and many currencies comparing to UZS";
+
+        $bot->makeRequest('sendMessage', [
+            'chat_id' => $id,
+            'text' => $start,
+            'reply_markup' => $reply_keyboard,
+        ]);
 
         $bot->save_user($id, $first_name);
     } else if ($text == '/weather') {
         $info = "Temperatur: " . round($weather_info['main']->temp - 273.15, 2) . "°C" . " - " . "Weather: " . $weather_info['weather'][0]->main;
 
         $bot->makeRequest('sendMessage', ['chat_id' => $id, 'text' => $info]);
-    } else if ($text == '/currencies') {
+    } else if ($text == '/currency') {
         $currency_list = "";
 
         $currencies = $currency->getCurrencies();
